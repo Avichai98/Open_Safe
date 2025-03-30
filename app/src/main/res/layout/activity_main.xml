@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_bluetooth"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cornerRadius="20dp"
+        android:backgroundTint="#CA1919"
+        android:tooltipText="תחבר אביזר לבלוטוס"
+        android:layout_margin="30dp"
+        android:background="@drawable/closed_lock">
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cornerRadius="20dp"
+        android:backgroundTint="#CA1919"
+        android:tooltipText="Add a new contact"
+        android:layout_margin="30dp"
+        android:background="@drawable/closed_lock">
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cornerRadius="20dp"
+        android:backgroundTint="#CA1919"
+        android:tooltipText="תגיע למיקום הבא:.."
+        android:layout_margin="30dp"
+        android:background="@drawable/closed_lock">
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cornerRadius="20dp"
+        android:backgroundTint="#CA1919"
+        android:tooltipText="תגיד את המילים הבאות:..."
+        android:layout_margin="30dp"
+        android:background="@drawable/closed_lock">
+    </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cornerRadius="20dp"
+        android:backgroundTint="#CA1919"
+         android:tooltipText="תכתוב הודעת SMS"
+        android:layout_margin="30dp"
+        android:background="@drawable/closed_lock">
+    </com.google.android.material.button.MaterialButton>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

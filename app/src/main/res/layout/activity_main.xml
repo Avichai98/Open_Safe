@@ -16,50 +16,63 @@
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-        android:tooltipText="תחבר אביזר לבלוטוס"
+        android:tooltipText="Connect a bluetooth device"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_camera"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-        android:tooltipText="Add a new contact"
+        android:tooltipText="Take a photo of a car"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_contact"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-        android:tooltipText="תגיע למיקום הבא:.."
+        android:tooltipText="Add new contact"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_magnitude"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-        android:tooltipText="תגיד את המילים הבאות:..."
+        android:tooltipText="Magnetic field minimum 60"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_nfc"
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-         android:tooltipText="תכתוב הודעת SMS"
+         android:tooltipText="Connect a NFC device"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/magnitude_text"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="bottom"
+        >
+
+    </com.google.android.material.textview.MaterialTextView>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

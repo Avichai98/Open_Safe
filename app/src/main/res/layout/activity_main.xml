@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_bluetooth"
@@ -27,7 +27,7 @@
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-        android:tooltipText="Take a photo of a car"
+        android:tooltipText="Take a photo of food"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
@@ -49,7 +49,7 @@
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-        android:tooltipText="Magnetic field minimum 60"
+        android:tooltipText="Magnetic field must be at least 60 µT"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
@@ -60,7 +60,7 @@
         android:layout_height="40dp"
         app:cornerRadius="20dp"
         android:backgroundTint="#CA1919"
-         android:tooltipText="Connect a NFC device"
+         android:tooltipText="Connect to an NFC device"
         android:layout_margin="30dp"
         android:background="@drawable/closed_lock">
     </com.google.android.material.button.MaterialButton>
@@ -69,10 +69,7 @@
         android:id="@+id/magnitude_text"
         android:layout_width="60dp"
         android:layout_height="30dp"
-        android:gravity="bottom"
-        >
-
+        android:gravity="bottom">
     </com.google.android.material.textview.MaterialTextView>
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

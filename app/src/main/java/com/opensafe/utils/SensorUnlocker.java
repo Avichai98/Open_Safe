@@ -22,7 +22,7 @@ public class SensorUnlocker implements SensorEventListener {
         magneticFieldSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         if (magneticFieldSensor == null) {
-            Log.w("SensorUnlocker", "אין במכשיר חיישן שדה מגנטי.");
+            Log.w("SensorUnlocker", "No magnetic field sensor found");
         }
     }
 
@@ -48,7 +48,7 @@ public class SensorUnlocker implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Log.d("SensorUnlocker", "דיוק חיישן מגנטי השתנה: " + accuracy);
+        Log.d("SensorUnlocker", "Accuracy changed for sensor " + sensor.getName() + ": " + accuracy);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SensorUnlocker implements SensorEventListener {
                     magneticFieldY * magneticFieldY +
                     magneticFieldZ * magneticFieldZ);
 
-            Log.d("SensorUnlocker", "גודל השדה המגנטי: " + currentMagneticFieldMagnitude + " µT");
+            Log.d("SensorUnlocker", "Size of magnetic field: " + currentMagneticFieldMagnitude + " µT");
 
             if (magneticFieldChangeListener != null) {
                 magneticFieldChangeListener.onMagneticFieldChanged(currentMagneticFieldMagnitude);

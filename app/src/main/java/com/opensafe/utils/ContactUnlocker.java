@@ -1,46 +1,57 @@
 package com.opensafe.utils;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
+import android.database.ContentObserver;
+import android.os.Handler;
 import android.provider.ContactsContract;
-
-import androidx.activity.result.ActivityResultLauncher;
+import android.util.Log;
 
 public class ContactUnlocker {
+    private final Context context;
+    private final ContactsObserver contactsObserver;
 
-    private final ActivityResultLauncher<Intent> addContactLauncher;
-    private final String phoneNumber;
+    private class ContactsObserver extends ContentObserver {
+        public ContactsObserver(Handler handler) {
+            super(handler);
+        }
 
-    public ContactUnlocker(ActivityResultLauncher<Intent> launcher) {
-        this.addContactLauncher = launcher;
-        phoneNumber = "0500000000";
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            Log.d("ContactUnlocker", "Contact list changed! Unlocking...");
+            onContactChanged();
+        }
+    }
+
+    public ContactUnlocker(Context context) {
+        this.context = context;
+        this.contactsObserver = new ContactsObserver(new Handler());
+
+        context.getContentResolver().registerContentObserver(
+                ContactsContract.Contacts.CONTENT_URI,
+                true,
+                contactsObserver
+        );
     }
 
     public void startUnlockFlow() {
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
-        addContactLauncher.launch(intent);
+        context.startActivity(intent);
     }
 
-    public boolean contactExists(Activity activity, String number) {
-        if (number != null) {
-            Uri lookupUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-            String[] mPhoneNumberProjection = { ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME };
-            try (Cursor cur = activity.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null)) {
-                assert cur != null;
-                if (cur.moveToFirst()) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return false;
-        }
-    }// contactExists
+    public void unregisterObserver() {
+        context.getContentResolver().unregisterContentObserver(contactsObserver);
+    }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public void onContactChanged() {
+        if (context instanceof UnlockCallback) {
+            ((UnlockCallback) context).onUnlockDetected();
+        }
+    }
+
+    public interface UnlockCallback {
+        void onUnlockDetected();
     }
 }

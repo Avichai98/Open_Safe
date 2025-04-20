@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-public class MainActivity extends AppCompatActivity implements SensorUnlocker.MagneticFieldChangeListener {
+public class MainActivity extends AppCompatActivity implements SensorUnlocker.MagneticFieldChangeListener, ContactUnlocker.UnlockCallback {
 
     private ActivityMainBinding binding;
 
@@ -53,10 +53,8 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
             Manifest.permission.WRITE_CONTACTS
     };
 
-    //private ActivityResultLauncher<Intent> bluetoothLauncher;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<Intent> galleryLauncher;
-    private ActivityResultLauncher<Intent> addContactLauncher;
     private ActivityResultLauncher<String[]> permissionsLauncher;
 
     private String pendingAction = null; // Stores the action to perform after permission is granted
@@ -77,13 +75,13 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
 
         // Initialize unlocker classes
         bluetoothUnlocker = new BluetoothUnlocker(this);
-        contactUnlocker = new ContactUnlocker(addContactLauncher);
+        contactUnlocker = new ContactUnlocker(this);
 
         imageUnlocker = new ImageUnlocker(this, detectedObject -> runOnUiThread(() -> {
             Toast.makeText(this, detectedObject + " detected! Unlocking...", Toast.LENGTH_SHORT).show();
             binding.btnCamera.setBackgroundResource(R.drawable.opened_lock); // Change UI when food is detected
             this.cameraUnlocked = true;
-            if (checksAllLocks()){
+            if (checksAllLocks()) {
                 openNewActivity();
             }
 
@@ -116,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
             if (sensorUnlocker.getCurrentMagneticFieldMagnitude() >= 60) {
                 binding.btnMagnitude.setBackgroundResource(R.drawable.opened_lock); // Unlock UI
                 this.magnitudeUnlocked = true;
-                if (checksAllLocks()){
+                if (checksAllLocks()) {
                     openNewActivity();
                 }
             } else {
@@ -157,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
         super.onDestroy();
         bluetoothUnlocker.stopListening();
         sensorUnlocker.stopListening(); // Stop listening for sensors when activity is destroyed
+        contactUnlocker.unregisterObserver();
     }
 
     private void setupLaunchers() {
@@ -187,21 +186,6 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
                     }
                 });
 
-        addContactLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (contactUnlocker.contactExists(this, contactUnlocker.getPhoneNumber())) {
-                        binding.btnContact.setBackgroundResource(R.drawable.opened_lock);
-                        this.contactUnlocked = true;
-                        if (checksAllLocks()){
-                            openNewActivity();
-                        }
-                    } else {
-                        Toast.makeText(this, "Contact not found", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
         permissionsLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestMultiplePermissions(), result -> {
                     boolean allGranted = true;
@@ -228,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
                                 launchGallery();
                                 break;
                             case "contacts":
-                                checkAndHandleContact();
+                                contactUnlocker.startUnlockFlow();
                                 break;
                             case "bluetooth":
                                 startBluetoothUnlock();
@@ -249,10 +233,24 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
         if (nfcUnlocker.handleNfcIntent(intent)) {
             runOnUiThread(() -> binding.btnNfc.setBackgroundResource(R.drawable.opened_lock));
             this.nfcUnlocked = true;
-            if (checksAllLocks()){
+            if (checksAllLocks()) {
                 openNewActivity();
             }
         }
+    }
+
+    @Override
+    public void onUnlockDetected() {
+        runOnUiThread(() -> {
+            Log.d("MainActivity", "Contact modified or added! Unlocking...");
+            binding.btnContact.setBackgroundResource(R.drawable.opened_lock);
+            contactUnlocked = true;
+            Toast.makeText(this, "Contact updated! Lock opened!", Toast.LENGTH_SHORT).show();
+
+            if (checksAllLocks()) {
+                openNewActivity();
+            }
+        });
     }
 
     private void updateMagnitude() {
@@ -270,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
             if (magnitude >= 60) { // You might need to adjust this threshold based on your magnet
                 binding.btnMagnitude.setBackgroundResource(R.drawable.opened_lock); // Unlock UI
                 this.magnitudeUnlocked = true;
-                if (checksAllLocks()){
+                if (checksAllLocks()) {
                     openNewActivity();
                 }
                 sensorUnlocker.stopListening(); // Stop listening for further changes
@@ -283,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
                 runOnUiThread(() -> {
                     binding.btnBluetooth.setBackgroundResource(R.drawable.opened_lock);
                     bluetoothUnlocked = true;
-                    if (checksAllLocks()){
+                    if (checksAllLocks()) {
                         openNewActivity();
                     }
                 }));
@@ -318,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
                         || ContextCompat.checkSelfPermission(this, CONTACTS_PERMISSIONS[1]) != PackageManager.PERMISSION_GRANTED) {
                     permissionsLauncher.launch(CONTACTS_PERMISSIONS); // Request contacts permissions
                 } else {
-                    checkAndHandleContact();
+                    contactUnlocker.startUnlockFlow();
                 }
                 break;
             case "bluetooth":
@@ -342,19 +340,6 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
     private void launchGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galleryLauncher.launch(galleryIntent);
-    }
-
-    private void checkAndHandleContact() {
-        String phoneNumber = "0500000000";
-        if (contactUnlocker.contactExists(this, phoneNumber)) {
-            binding.btnContact.setBackgroundResource(R.drawable.opened_lock);
-            this.contactUnlocked = true;
-            if (checksAllLocks()){
-                openNewActivity();
-            }
-        } else {
-            contactUnlocker.startUnlockFlow();
-        }
     }
 
     private void showPermissionRationaleDialog() {
@@ -381,11 +366,11 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
                 .show();
     }
 
-    private boolean checksAllLocks(){
+    private boolean checksAllLocks() {
         return bluetoothUnlocked && cameraUnlocked && contactUnlocked && magnitudeUnlocked && nfcUnlocked;
     }
 
-    private void openNewActivity(){
+    private void openNewActivity() {
         Intent intent = new Intent(this, SafeUnlockActivity.class);
         startActivity(intent);
         finish();

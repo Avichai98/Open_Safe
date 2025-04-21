@@ -18,7 +18,6 @@ Your mission: **complete 5 tasks to unlock each lock** and gain access to the **
 | 📞 **Contacts Lock** | Add a new contact to the phone. |
 | 🎛️ **Magnetic Field Lock** | Detect a **magnetic field of 60 µT or higher**. |
 | 🏷️ **NFC Lock** | Scan any **NFC tag** using the device. |
-| 🔐 **Final Safe** | Unlock all five locks to access the safe! |
 
 🔹 **Gallery or Camera Selection Example:**
 

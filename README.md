@@ -1,4 +1,5 @@
 # 🔐 OPEN_SAFE
+<img src="app/src/main/res/drawable/home_page.jpg" alt="Home Screen" width="300">
 
 Welcome to **OPEN_SAFE**, the ultimate challenge-based unlocking app!  
 Your mission: **complete 5 tasks to unlock each lock** and gain access to the **final safe**.  
@@ -19,14 +20,25 @@ Your mission: **complete 5 tasks to unlock each lock** and gain access to the **
 | 🏷️ **NFC Lock** | Scan any **NFC tag** using the device. |
 | 🔐 **Final Safe** | Unlock all five locks to access the safe! |
 
+🔹 **Gallery or Camera Selection Example:**
+
+<img src="app/src/main/res/drawable/image_source.jpg" alt="Gallery or Camera Selection" width="300">
+
 ## ⚙️ **Permission Handling**
+<img src="app/src/main/res/drawable/permission.jpg" alt="Permission Request" width="300">
+
 To ensure a smooth experience, **OPEN_SAFE** handles permissions intelligently:
 1. If a permission is **denied once**, a **friendly message** explains why it's needed.
+<img src="app/src/main/res/drawable/permission_explanation.jpg" alt="First Denial Message" width="300">
+
 2. If the permission is **denied twice**, the app directs the user to **device settings** for manual activation.
+<img src="app/src/main/res/drawable/permission_in_settings.jpg" alt="Second Denial Settings" width="300">
 
 ## 🎮 How to Play
+<img src="app/src/main/res/drawable/explanation.jpg" alt="Task Explanation" width="300">
+
 1️⃣ **Launch OPEN_SAFE** to see the 5 locks on the main screen.  
-2️⃣ **Long press any lock** to get instructions on how to unlock it.  
+2️⃣ **Long-press any lock** to get instructions on how to unlock it.  
 3️⃣ **Complete the challenge** for each lock using the required method:  
    - 🔵 Connect **Bluetooth**  
    - 🍽️ Take or select a **food image**  
@@ -34,7 +46,9 @@ To ensure a smooth experience, **OPEN_SAFE** handles permissions intelligently:
    - 🎛️ Detect **magnetic field of 60 µT or higher**  
    - 🏷️ Scan an **NFC tag**
      
-4️⃣ **Once all locks are unlocked, the safe will open automatically!**  
+4️⃣ **Once all locks are unlocked, the safe will open automatically!**
+
+<img src="app/src/main/res/drawable/opened_safe_page.jpg" alt="Unlocked Safe Screen" width="300">
 
 ## 📦 Installation
 ```bash
@@ -44,8 +58,8 @@ cd open_safe
 # 🛠️ Technologies Used
 
 ## 💻 Languages
-- Java  
-- Xml  
+- JAVA  
+- XML  
 
 ## 📱 SDK
 - Android SDK  

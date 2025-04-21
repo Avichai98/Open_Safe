@@ -27,15 +27,15 @@ public class ContactUnlocker {
     public ContactUnlocker(Context context) {
         this.context = context;
         this.contactsObserver = new ContactsObserver(new Handler());
+    }
 
+    public void startUnlockFlow() {
         context.getContentResolver().registerContentObserver(
                 ContactsContract.Contacts.CONTENT_URI,
                 true,
                 contactsObserver
         );
-    }
 
-    public void startUnlockFlow() {
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
         context.startActivity(intent);

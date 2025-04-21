@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
         handleNfcIntent(intent);
@@ -246,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements SensorUnlocker.Ma
             binding.btnContact.setBackgroundResource(R.drawable.opened_lock);
             contactUnlocked = true;
             Toast.makeText(this, "Contact updated! Lock opened!", Toast.LENGTH_SHORT).show();
+            contactUnlocker.unregisterObserver();
 
             if (checksAllLocks()) {
                 openNewActivity();

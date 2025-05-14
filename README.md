@@ -67,7 +67,7 @@ cd open_safe
 - [Google ML Kit](https://developers.google.com/ml-kit)  
 - [Glide](https://github.com/bumptech/glide)
 
-# 📩 Contact
+## 📩 Contact
 
 If you have any questions, suggestions, or want to contribute, feel free to reach out.
 
